@@ -118,9 +118,10 @@ class MyNotes {
     this.events();
   }
   events() {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".delete-note").on("click", this.deleteNote.bind(this));
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".edit-note").on("click", this.editNote.bind(this));
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".update-note").on("click", this.updateNote.bind(this));
+    //changeing slectort from .delete-note edit and update  to id my notes so that newly created notes can be perfom edit or delete
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#my-notes").on("click", ".delete-note", this.deleteNote.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#my-notes").on("click", ".edit-note", this.editNote.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#my-notes").on("click", ".update-note", this.updateNote.bind(this));
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".submit-note").on("click", this.createNote.bind(this));
   }
   //methods will go here
@@ -207,13 +208,14 @@ class MyNotes {
       data: ourNewPost,
       success: response => {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-title, .new-note-body").val(""); //for clearing out the title and body
+
         //below, we are using <li> from page-my-notes, and the method to get the information is from wordpress api response. If we console than we'll get most of info including id in the resoponse. SO use response.id and etc
         jquery__WEBPACK_IMPORTED_MODULE_0___default()(`
             <li data-id="${response.id}"> 
-                    <input readonly class="note-title-field" value="<?php echo esc_attr(get_the_title());?>">
+                    <input readonly class="note-title-field" value="${response.title.raw}">
                     <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"> Edit</i></span>
                     <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"> Delete</i></span>
-                    <textarea readonly class="note-body-field"><?php echo esc_attr(wp_strip_all_tags(get_the_content())); ?></textarea>
+                    <textarea readonly class="note-body-field">${response.content.raw}</textarea>
                     <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"> Save</i></span>
                 </li>
         `).prependTo("#my-notes").hide().slideDown();
