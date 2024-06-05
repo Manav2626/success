@@ -196,7 +196,12 @@ class MyNotes {
   createNote(e) {
     var ourNewPost = {
       'title': jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-title").val(),
-      'content': jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-body").val()
+      'content': jquery__WEBPACK_IMPORTED_MODULE_0___default()(".new-note-body").val(),
+      'status': 'publish' //default is draft, this changes default to published
+      /*
+      - but now we want to make all post private by default for security reasons so change publish -> private
+      - One step further, someone can change client side settings private to publish, and that's security breach.  
+      - So it's better to set private method on server side. Can be achived from Functions*/
     };
     jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
       beforeSend: xhr => {
