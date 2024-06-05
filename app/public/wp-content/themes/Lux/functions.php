@@ -5,6 +5,9 @@ function lux_custom_rest(){
     register_rest_field('post','authorName',array(
         'get_callback' => function(){return get_the_author();}
     ));
+    register_rest_field('note','userNoteCount',array(
+        'get_callback' => function(){return count_user_posts(get_current_user_id(), 'note');}
+    ));
 };
 
 add_action('rest_api_init', 'lux_custom_rest');
@@ -140,12 +143,19 @@ function ourLoginTitle(){
 
 //Forced note posts to be Private 
 
-add_filter('wp_insert_post_data', 'makeNotePrivate'); //makes final changes to code, before storing in servers 
+add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2); //makes final changes to code, before storing in servers 
 
 // above function is working like water filter, data passed -> data cleans(modifies) -> returns data
-function makeNotePrivate($data){
+function makeNotePrivate($data, $postarr){
 
     if($data['post_type']=='note'){
+        //below function takes 2 arguments, 1: On which 2: it's which post type
+        //but with only > 4 condition, if limit reached, user can't edit or delete existing post.
+        // To avoid that, we'll take help of ID, because new POST will not created, and old has id. and to get that we'll add $postarr in function + in it's action, we'll add PRIORITY & NUMBER OF PARAMETERS
+        if(count_user_posts(get_current_user_id(), 'note') > 4 AND !$postarr['ID']){
+            die("You have reached your post limit");
+        }
+        //Now we'll limit the number of posts/notes user can create. Use above condition
         $data['post_content'] = sanitize_textarea_field($data['post_content']);
         $data['post_title'] = sanitize_text_field($data['post_title']);
     }
