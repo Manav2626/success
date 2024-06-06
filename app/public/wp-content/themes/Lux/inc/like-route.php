@@ -71,7 +71,14 @@ function createLike($data)
     }
 }
 
-function deleteLike()
+function deleteLike($data)
 {
-    return 'Thanks for Deleting Like';
+    $likeID = sanitize_text_field($data['like']);
+    // wp_delete_post($likeID, true); //this will remove the post, but it's most insecure method, we should set some condition 
+    if(get_current_user_id() == get_post_field( 'post_author', $likeID) AND get_post_type( $likeID ) == 'like'){
+        wp_delete_post($likeID, true);
+        return 'Congratulations Like deleted!';
+    }else {
+        die('You do not have permission to delete that');
+    }
 }
