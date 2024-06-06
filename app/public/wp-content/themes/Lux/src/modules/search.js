@@ -51,6 +51,7 @@ class Search{
 
     getReasults(){
         $.getJSON(luxData.root_url+'/wp-json/lux/v1/search?term='+this.searchField.val(), (result)=>{
+            console.log(result);
             this.reasultDiv.html(`
             
             <div class="row">
@@ -70,7 +71,7 @@ class Search{
                     ${result.professors.length ? '<ul class="professor-card">' : ''}
                     ${result.professors.map(item => `
                     <li class="professor-card__list-item">
-                        <a class="professor-card" href="${item.link}?>">
+                        <a class="professor-card" href="${item.url}?>">
                 
                     <img class="professor-card__image" src="${item.image}" alt="">
                     <span class="professor-card__name"><?php the_title(); ?></span>
@@ -122,7 +123,7 @@ class Search{
         setTimeout(()=>this.searchField.focus(), 301);
         console.log("Open")
         this.isOverlayOpen = true;
-        // return false;
+        return false; //uncommenting to run search overlay
     }
     closeOverlay(){
         this.searchOverlay.removeClass("search-overlay--active");
