@@ -59,7 +59,9 @@ function lux_post_types()
 
     //note post type
     register_post_type('note', array(
-
+        //for adding post method for ROLES section for granting permission, add below 2 lines
+        'capability_type' => 'note',
+        'map_meta_cap' => true,
         'supports' => array('title', 'editor'),
         'show_in_rest' => true,
         'public' => false,
@@ -74,6 +76,24 @@ function lux_post_types()
         ),
 
         'menu_icon' => 'dashicons-welcome-write-blog'
+    ));
+    //like post type
+    register_post_type('like', array(
+        
+        'supports' => array('title'),
+        
+        'public' => false,
+        'show_ui' => true,
+        'labels' => array(
+            'name' => 'Likes',
+            'add_new_item' => 'Add New Like',
+            'edit_item' => 'Edit Like',
+            'all_items' => 'All Likes',
+            'singular_name' => 'Like',
+
+        ),
+
+        'menu_icon' => 'dashicons-heart'
     ));
 
 }

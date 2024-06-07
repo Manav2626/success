@@ -1,0 +1,1 @@
+There will be lot's of lengthy comments inbetween Code. Which are just for me to help me in learning process. 
