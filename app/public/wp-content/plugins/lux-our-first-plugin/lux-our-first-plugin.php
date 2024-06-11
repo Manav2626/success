@@ -50,6 +50,7 @@ class WordCountAndTimePlugin
     function settings()
     {
         add_settings_section('wcp_first_section',null,null,'word-count-settings-page');
+        
         add_settings_field('wcp_location','Display Location', array($this, 'locationHTML'),'word-count-settings-page','wcp_first_section');
         register_setting('wordcountPlugin', 'wcp_location', array('sanitize_callback' => 'sanitize_text_field', 'default' => '0'));
     }
