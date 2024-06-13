@@ -6,7 +6,8 @@
     Version: 1.0
     Author: Manav
     Author URL: http://success.local/
-
+    Text Domain: wcpdomain
+    Domain Path: /languages
 */
 
 
@@ -19,6 +20,17 @@ class WordCountAndTimePlugin
         add_action('admin_menu', array($this, 'adminPage'));
         add_action('admin_init', array($this, 'settings'));
         add_filter('the_content', array($this, 'ifWrap') ); //this is filter we will use to filetr content to show word counter
+        add_action('init', array($this, 'languages'));
+    }
+
+    /* 
+    Making Code to use Language based on Admin Selection
+    1. Added Text Domain and Domain path whatever we like
+    2. Changed hardcoded Text to __('Text was used', 'wcpdomain') Text domain we set
+    3. Created a action constructor and function for that
+    */
+    function languages(){
+        load_plugin_textdomain('wcpdomain', false, dirname(plugin_basename(__FILE__)).'/languages');
     }
 
     /* 
@@ -43,7 +55,7 @@ class WordCountAndTimePlugin
         }
         //AND after calculating wordcount, Adding to the HTML 
         if(get_option('wcp_wordcount','1')){
-            $html .= 'This Post has '. $wordCount .' words. <br>';
+            $html .= esc_html__('This Post has', 'wcpdomain').' '. $wordCount .' '.esc_html__('words', 'wcpdomain'). '<br>';
         }
         if(get_option('wcp_characterCount','1')){
             $html .= 'This Post has '. strlen(strip_tags($content)) .' characters. <br>';
@@ -65,7 +77,7 @@ class WordCountAndTimePlugin
 
     function adminPage()
     {
-        add_options_page('Words Count Settings', 'Words Count', 'manage_options', 'word-count-settings-page', array($this, 'ourHTML'));
+        add_options_page('Words Count Settings', esc_html__('Words Count', 'wcpdomain'), 'manage_options', 'word-count-settings-page', array($this, 'ourHTML'));
     }
     /*
     register_settings(1,2,3); // used Once for-Each options on Plugin. In our case we'll use it 5 times
