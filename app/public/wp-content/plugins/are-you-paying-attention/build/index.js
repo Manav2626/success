@@ -93,15 +93,52 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   title: "Are you paying attention",
   icon: "smiley",
   category: "common",
-  edit: function () {
-    //what will see on post editor screen
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Hello ");
+  attributes: {
+    skyColor: {
+      type: "string"
+    },
+    grassColor: {
+      type: "string"
+    }
   },
-  save: function () {
+  edit: function (props) {
+    function updateSkyColor(event) {
+      props.setAttributes({
+        skyColor: event.target.value
+      });
+    }
+    function updateGrassColor(event) {
+      props.setAttributes({
+        grassColor: event.target.value
+      });
+    }
+    //what will see on post editor screen
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      type: "text",
+      placeholder: "sky color",
+      onChange: updateSkyColor
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      type: "text",
+      placeholder: "grass color",
+      onChange: updateGrassColor
+    }));
+  },
+  save: function (props) {
     //what will see on actual user screen
-    return wp.element.createElement("h1", null, "This is the fronend.");
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Today the sky is ", props.attributes.skyColor, " and the grass is ", props.attributes.grassColor);
   }
 });
+
+/*
+To create a block by self, Have 2 things edit && save
+edit-> for editor
+save-> what customer will see 
+Now to use function
+    - mention attributes before edit
+We want LIVE updates and NOT ON SAVE
+    - add onChange
+    - create function for it
+*/
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

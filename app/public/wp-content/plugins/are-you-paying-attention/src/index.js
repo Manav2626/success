@@ -3,16 +3,45 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention",{
     title: "Are you paying attention",
     icon: "smiley",
     category: "common",
-    edit: function (){
+    attributes:{
+        skyColor: {type: "string"},
+        grassColor: {type: "string"}
+    },
+    edit: function (props){
+        function updateSkyColor(event){
+            props.setAttributes({skyColor: event.target.value})
+        }
+        function updateGrassColor(event){
+            props.setAttributes({grassColor: event.target.value})
+        }
         //what will see on post editor screen
-        return <h3>Hello </h3>
+        return (
+            <div>
+                <input type="text" placeholder="sky color" onChange={updateSkyColor}/>
+                <input type="text" placeholder="grass color" onChange={updateGrassColor} />
+            </div>
+        )
         
 
     },
-    save: function(){
+    save: function(props){
         //what will see on actual user screen
-        return wp.element.createElement("h1",null,"This is the fronend.")
+        return (
+        
+            <p>Today the sky is {props.attributes.skyColor} and the grass is {props.attributes.grassColor}</p> 
+            
+        )
     }
 })
 
+/*
+To create a block by self, Have 2 things edit && save
+edit-> for editor
+save-> what customer will see 
+Now to use function
+    - mention attributes before edit
+We want LIVE updates and NOT ON SAVE
+    - add onChange
+    - create function for it
+*/
 
