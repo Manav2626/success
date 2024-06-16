@@ -17,21 +17,19 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention",{
         //what will see on post editor screen
         return (
             <div>
-                <input type="text" placeholder="sky color" onChange={updateSkyColor}/>
-                <input type="text" placeholder="grass color" onChange={updateGrassColor} />
+                <input type="text" placeholder="sky color" value={props.attributes.skyColor} onChange={updateSkyColor}/>
+                <input type="text" placeholder="grass color" value={props.attributes.grassColor} onChange={updateGrassColor} />
             </div>
         )
         
 
     },
+// Whenevr changes made in code can lead to error on editor, cause nothing is saved before changes, CAN USE DEPRICATED, but NOT the best menthod, it's manual. USE PHP and return NULL to save function 
     save: function(props){
         //what will see on actual user screen
-        return (
-        
-            <p>Today the sky is {props.attributes.skyColor} and the grass is {props.attributes.grassColor}</p> 
-            
-        )
-    }
+        return null
+    },
+    
 })
 
 /*
@@ -43,5 +41,6 @@ Now to use function
 We want LIVE updates and NOT ON SAVE
     - add onChange
     - create function for it
+
 */
 
