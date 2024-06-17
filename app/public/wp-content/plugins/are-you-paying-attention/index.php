@@ -10,26 +10,37 @@
 
 if (!defined('ABSPATH')) exit; // Exits if someone tries to directly access Plugin
 
-class AreYouPayingAttention{
-    function __construct(){
+class AreYouPayingAttention
+{
+    function __construct()
+    {
         add_action('init', array($this, 'adminAssets')); //to load JS file
     }
-    function adminAssets(){
-        wp_register_script('ournewblocktype', plugin_dir_url(__FILE__).'build/index.js', array('wp-blocks', 'wp-element')); 
+    function adminAssets()
+    {
+        if(!is_admin()){
+            wp_register_style('quizeditcss', plugin_dir_url(__FILE__) . 'build/index.css');
+            wp_register_script('ournewblocktype', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
+
+        }
         register_block_type('ourplugin/are-you-paying-attention', array(
-            'editor_script' => 'ournewblocktype', //name we used above
+            'editor_script' => 'ournewblocktype', //name we used above for script
+            'editor_style' => 'quizeditcss', //name we used above for css
             'render_callback' => array($this, 'theHTML')
 
         ));
     }
 
-    function theHTML($attributes){
+    function theHTML($attributes)
+    {
+        wp_enqueue_script('attentionFrontend', plugin_dir_url(__FILE__) . 'build/frontend.js', array('wp-element'), '1.0', true);
+        wp_enqueue_style( 'attentionFrontendStyles', plugin_dir_url(__FILE__) . 'build/frontend.css');
+
         // return '<p>Today the sky is'.' '.$attributes['skyColor'].' '.'and the grass is'.' '.$attributes['grassColor'].'.</p>';
         ob_start(); ?>
         <h3> Today the sky is <?php echo esc_html($attributes['skyColor']) ?> and the grass is <?php echo esc_html($attributes['grassColor']) ?></h3>
-        <?php return ob_get_clean();
+<?php return ob_get_clean();
     }
-
 }
 
 $areYouPayingAttention = new AreYouPayingAttention();  
@@ -47,4 +58,8 @@ Under the admin assets, created register_block_type
     1. gave the value of register block type from index.js
     2. gave the script
     3. gave the HTML callback and created function for html
+Started CSS
+    1. Created CSS file
+    2. added in adminAssets 
+    3. Add more fields in JS
 */
