@@ -18,11 +18,9 @@ class AreYouPayingAttention
     }
     function adminAssets()
     {
-        if(!is_admin()){
-            wp_register_style('quizeditcss', plugin_dir_url(__FILE__) . 'build/index.css');
-            wp_register_script('ournewblocktype', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
 
-        }
+        wp_register_style('quizeditcss', plugin_dir_url(__FILE__) . 'build/index.css');
+        wp_register_script('ournewblocktype', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
         register_block_type('ourplugin/are-you-paying-attention', array(
             'editor_script' => 'ournewblocktype', //name we used above for script
             'editor_style' => 'quizeditcss', //name we used above for css
@@ -33,12 +31,14 @@ class AreYouPayingAttention
 
     function theHTML($attributes)
     {
-        wp_enqueue_script('attentionFrontend', plugin_dir_url(__FILE__) . 'build/frontend.js', array('wp-element'), '1.0', true);
-        wp_enqueue_style( 'attentionFrontendStyles', plugin_dir_url(__FILE__) . 'build/frontend.css');
+        if (!is_admin()) {
+            wp_enqueue_script('attentionFrontend', plugin_dir_url(__FILE__) . 'build/frontend.js', array('wp-element'), '1.0', true);
+            wp_enqueue_style('attentionFrontendStyles', plugin_dir_url(__FILE__) . 'build/frontend.css');
+        }
 
         // return '<p>Today the sky is'.' '.$attributes['skyColor'].' '.'and the grass is'.' '.$attributes['grassColor'].'.</p>';
         ob_start(); ?>
-        <h3> Today the sky is <?php echo esc_html($attributes['skyColor']) ?> and the grass is <?php echo esc_html($attributes['grassColor']) ?></h3>
+        <div class="paying-attention-update-me"><pre style="display: none"><?php echo wp_json_encode($attributes) ?></pre></div>
 <?php return ob_get_clean();
     }
 }
