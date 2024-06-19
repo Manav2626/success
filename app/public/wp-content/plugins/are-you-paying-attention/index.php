@@ -18,12 +18,12 @@ class AreYouPayingAttention
     }
     function adminAssets()
     {
-
-        wp_register_style('quizeditcss', plugin_dir_url(__FILE__) . 'build/index.css');
-        wp_register_script('ournewblocktype', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
-        register_block_type('ourplugin/are-you-paying-attention', array(
-            'editor_script' => 'ournewblocktype', //name we used above for script
-            'editor_style' => 'quizeditcss', //name we used above for css
+        //SINCE USING block.json using DIR, below line are no longer needed, commented for reffernce only 
+        // wp_register_style('quizeditcss', plugin_dir_url(__FILE__) . 'build/index.css');
+        // wp_register_script('ournewblocktype', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
+        register_block_type(__DIR__, array(
+            // 'editor_script' => 'ournewblocktype', //name we used above for script
+            // 'editor_style' => 'quizeditcss', //name we used above for css
             'render_callback' => array($this, 'theHTML')
 
         ));
@@ -31,10 +31,11 @@ class AreYouPayingAttention
 
     function theHTML($attributes)
     {
-        if (!is_admin()) {
-            wp_enqueue_script('attentionFrontend', plugin_dir_url(__FILE__) . 'build/frontend.js', array('wp-element'), '1.0', true);
-            wp_enqueue_style('attentionFrontendStyles', plugin_dir_url(__FILE__) . 'build/frontend.css');
-        }
+        //Below code is of Frontend CSS & JS path, but added path in block.json viewStyle, below code are commented just for reference
+        // if (!is_admin()) {
+        //     wp_enqueue_script('attentionFrontend', plugin_dir_url(__FILE__) . 'build/frontend.js', array('wp-element'), '1.0', true); 
+        //     wp_enqueue_style('attentionFrontendStyles', plugin_dir_url(__FILE__) . 'build/frontend.css'); 
+        // }
 
         // return '<p>Today the sky is'.' '.$attributes['skyColor'].' '.'and the grass is'.' '.$attributes['grassColor'].'.</p>';
         ob_start(); ?>
@@ -63,3 +64,6 @@ Started CSS
     2. added in adminAssets 
     3. Add more fields in JS
 */
+
+
+//Moving values from here to Block.json , and using __DIR__

@@ -147,7 +147,11 @@ function Quiz(props) {
     }
   }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "paying-attention-frontend"
+    className: "paying-attention-frontend",
+    style: {
+      backgroundColor: props.bgColor,
+      textAlign: props.theAlignment
+    }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.question), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, props.answers.map(function (answer, index) {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
       className: (isCorrectDelayed === true && index == props.correctAnswer ? "no-click" : "") + (isCorrectDelayed === true && index != props.correctAnswer ? "fade-incorrect" : ""),
@@ -217,6 +221,7 @@ Logic of Correct Answer selection
     10. Set extra CSS in li tag with ternary condition 
         i. Create correct button CSS and incorrect button css
         ii. if correct (correct index button will get correct button CSS) && (incorrect will get incorrect button CSS)
+    11. Added textAlign inline css passed from index.js
 */
 /******/ })()
 ;
